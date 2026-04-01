@@ -17,7 +17,7 @@ namespace ReportDay
     {
         private bool isDarkTheme = true;
         private MediaPlayer _soundPlayer = new MediaPlayer();
-        private readonly string savePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "autosave.json");
+       private readonly string savePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "autosave.json");
 
         // Цвета для тем
         private static readonly string DarkBgColor = "#232323";
@@ -166,38 +166,52 @@ namespace ReportDay
             StringBuilder sb = new StringBuilder();
             var greeting = (GreetingCombo.SelectedItem as ComboBoxItem)?.Content.ToString();
             sb.AppendLine($"{greeting}!");
-            sb.AppendLine();
+            sb.AppendLine(); // Отступ после приветствия
 
+            // --- СЕКЦИЯ 1 ---
             if (Tasks.Any())
             {
                 sb.AppendLine(Header1.Content.ToString());
+                sb.AppendLine(); // Пустая строка после заголовка секции
                 for (int i = 0; i < Tasks.Count; i++)
                 {
-                    sb.AppendLine($"1.{i + 1}. {Tasks[i].Title}");
-                    if (!string.IsNullOrWhiteSpace(Tasks[i].Link)) sb.AppendLine(Tasks[i].Link);
+                    sb.AppendLine($"{i + 1}.{i + 1}.\t{Tasks[i].Title}"); // Номер с табом
+                    if (!string.IsNullOrWhiteSpace(Tasks[i].Link))
+                        sb.AppendLine($"\t{Tasks[i].Link}"); // Ссылка с табом
+
+                    sb.AppendLine(); // Пустая строка между пунктами 1.1, 1.2 и т.д.
                 }
-                sb.AppendLine();
             }
 
+            // --- СЕКЦИЯ 2 ---
             if (Fixed.Any())
             {
                 sb.AppendLine(Header2.Content.ToString());
+                sb.AppendLine();
                 for (int i = 0; i < Fixed.Count; i++)
                 {
-                    sb.AppendLine($"2.{i + 1}. {Fixed[i].Title}");
-                    if (!string.IsNullOrWhiteSpace(Fixed[i].Link)) sb.AppendLine(Fixed[i].Link);
+                    sb.AppendLine($"{2}.{i + 1}.\t{Fixed[i].Title}");
+                    if (!string.IsNullOrWhiteSpace(Fixed[i].Link))
+                        sb.AppendLine($"\t{Fixed[i].Link}");
+
+                    sb.AppendLine();
                 }
-                sb.AppendLine();
             }
 
+            // --- СЕКЦИЯ 3 ---
             if (Returned.Any())
             {
                 sb.AppendLine(Header3.Content.ToString());
+                sb.AppendLine();
                 for (int i = 0; i < Returned.Count; i++)
                 {
-                    sb.AppendLine($"3.{i + 1}. {Returned[i].Title}");
-                    if (!string.IsNullOrWhiteSpace(Returned[i].Link)) sb.AppendLine(Returned[i].Link);
-                    if (!string.IsNullOrWhiteSpace(Returned[i].Reason)) sb.AppendLine($"Причина: {Returned[i].Reason}");
+                    sb.AppendLine($"{3}.{i + 1}.\t{Returned[i].Title}");
+                    if (!string.IsNullOrWhiteSpace(Returned[i].Link))
+                        sb.AppendLine($"\t{Returned[i].Link}");
+                    if (!string.IsNullOrWhiteSpace(Returned[i].Reason))
+                        sb.AppendLine($"\tПричина: {Returned[i].Reason}");
+
+                    sb.AppendLine();
                 }
             }
 
