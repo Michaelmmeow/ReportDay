@@ -9,10 +9,18 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="20">
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,20">
-                    <Button Content="Сменить тему" Click="ChangeTheme_Click" Padding="10,5"/>
-                </StackPanel>
-
+                <ComboBox x:Name="ThemeSelector" Width="120" Height="22" FontSize="10" 
+                          VerticalAlignment="Top" HorizontalAlignment="Right" 
+                          SelectionChanged="ThemeSelector_SelectionChanged">
+                    <ComboBoxItem Content="Светлая тема" Tag="Light"/>
+                    <ComboBoxItem Content="Темная тема" Tag="Dark"/>
+                </ComboBox>
+                
+                <Button Content="⚡ Авто " 
+        Click="AutoTimeSetup_Click" 
+        Height="30" Width="120" 
+        Margin="0,10,0,10"
+        Background="#673AB7" Foreground="White"/>
                 <TextBlock Text="Выберите приветствие:" Foreground="{DynamicResource MainText}" Margin="0,0,0,5"/>
                 <ComboBox x:Name="GreetingCombo" SelectedIndex="0" Margin="0,0,0,20">
                     <ComboBoxItem Content="Добрый день"/>
@@ -20,93 +28,81 @@
                     <ComboBoxItem Content="Доброе утро"/>
                 </ComboBox>
 
-                <Button Content="(очистить отчёт)" 
-            Height="40" 
-            Background="#8D6E63" Foreground="White"
-            Click="ClearReport_Click" 
-            Margin="0,0,0,20"/>
+                <Button Content="(очистить отчёт)" Height="40" Background="#8D6E63" Foreground="White" Click="ClearReport_Click" Margin="0,0,0,20"/>
 
-                <Button x:Name="Header1" 
-                        Content="1. Задачи" 
-                        Click="Header1_Click" 
-                        Background="Transparent" BorderThickness="0" 
-                        Foreground="{DynamicResource MainText}" 
-                        FontSize="16" FontWeight="Bold" 
-                        HorizontalAlignment="Left" Cursor="Hand"/>
-
+                <!-- СЕКЦИЯ 1: ЗАДАЧИ -->
+                <ComboBox x:Name="HeaderSelector1" SelectedIndex="0" Margin="5">
+                    <ComboBoxItem Content="1. Задачи"/>
+                    <ComboBoxItem Content="1. Сегодня"/>
+                    <ComboBoxItem Content="1. Созвоны"/>
+                </ComboBox>
                 <ItemsControl ItemsSource="{Binding Tasks}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Margin="0,5">
                                 <StackPanel>
-                                    <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Width="300" KeyDown="OnKeyDown"/>
-                                    <TextBox Text="{Binding Link, UpdateSourceTrigger=PropertyChanged}" Width="300" Margin="0,2,0,0" KeyDown="OnKeyDown" Foreground="Blue"/>
+                                    <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Width="250" KeyDown="OnKeyDown"/>
+                                    <TextBox Text="{Binding Link, UpdateSourceTrigger=PropertyChanged}" Width="250" Margin="0,2,0,0" KeyDown="OnKeyDown" Foreground="Blue"/>
                                 </StackPanel>
-                                <Button Content="-" Click="RemoveTask_Click" Width="25" Height="25" Margin="5,0"/>
+                                <Button Content="▲" Click="MoveUp_Click" Width="25" Margin="2,0"/>
+                                <Button Content="▼" Click="MoveDown_Click" Width="25" Margin="2,0"/>
+                                <Button Content="➡ Фикс" Click="MoveToFixed_Click" Width="50" Margin="5,0"/>
+                                <Button Content="❌" Click="RemoveTask_Click" Width="25" Height="25" Margin="2,0"/>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
                 <Button Content="+ Добавить задачу" Click="AddTask_Click" HorizontalAlignment="Left" Margin="0,5,0,20"/>
 
-                <Button x:Name="Header2" 
-                        Content="2. Пофикшено" 
-                        Click="Header2_Click" 
-                        Background="Transparent" BorderThickness="0" 
-                        Foreground="{DynamicResource MainText}" 
-                        FontSize="16" FontWeight="Bold" 
-                        HorizontalAlignment="Left" Cursor="Hand"/>
-
+                <!-- СЕКЦИЯ 2: ПОФИКСИЛИ -->
+                <ComboBox x:Name="HeaderSelector2" SelectedIndex="0" Margin="5">
+                    <ComboBoxItem Content="2. Пофикшено"/>
+                    <ComboBoxItem Content="2. Сегодня"/>
+                </ComboBox>
                 <ItemsControl ItemsSource="{Binding Fixed}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Margin="0,5">
                                 <StackPanel>
-                                    <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Width="300" KeyDown="OnKeyDown"/>
-                                    <TextBox Text="{Binding Link, UpdateSourceTrigger=PropertyChanged}" Width="300" Margin="0,2,0,0" KeyDown="OnKeyDown" Foreground="Blue"/>
+                                    <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Width="250" KeyDown="OnKeyDown"/>
+                                    <TextBox Text="{Binding Link, UpdateSourceTrigger=PropertyChanged}" Width="250" Margin="0,2,0,0" KeyDown="OnKeyDown" Foreground="Blue"/>
                                 </StackPanel>
-                                <Button Content="-" Click="RemoveTask_Click" Width="25" Height="25" Margin="5,0"/>
+                                <Button Content="▲" Click="MoveUp_Click" Width="25" Margin="2,0"/>
+                                <Button Content="▼" Click="MoveDown_Click" Width="25" Margin="2,0"/>
+                                <Button Content="❌" Click="RemoveTask_Click" Width="25" Height="25" Margin="5,0"/>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
                 <Button Content="+ Добавить" Click="AddFixed_Click" HorizontalAlignment="Left" Margin="0,5,0,20"/>
 
-                <Button x:Name="Header3" 
-                        Content="3. Вернул в работу" 
-                        Click="Header3_Click" 
-                        Background="Transparent" BorderThickness="0" 
-                        Foreground="{DynamicResource MainText}" 
-                        FontSize="16" FontWeight="Bold" 
-                        HorizontalAlignment="Left" Cursor="Hand"/>
-
+                <!-- СЕКЦИЯ 3: ВЕРНУЛИ В РАБОТУ -->
+                <ComboBox x:Name="HeaderSelector3" SelectedIndex="0" Margin="5">
+                    <ComboBoxItem Content="3. Вернул в работу"/>
+                    <ComboBoxItem Content="3. Сегодня"/>
+                </ComboBox>
                 <ItemsControl ItemsSource="{Binding Returned}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Margin="0,5">
                                 <StackPanel>
-                                    <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Width="300" KeyDown="OnKeyDown"/>
-                                    <TextBox Text="{Binding Link, UpdateSourceTrigger=PropertyChanged}" Width="300" Margin="0,2,0,0" KeyDown="OnKeyDown" Foreground="Blue"/>
-                                    <TextBox Text="{Binding Reason, UpdateSourceTrigger=PropertyChanged}" Width="300" Margin="0,2,0,0" KeyDown="OnKeyDown" FontStyle="Italic"/>
+                                    <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Width="250" KeyDown="OnKeyDown"/>
+                                    <TextBox Text="{Binding Link, UpdateSourceTrigger=PropertyChanged}" Width="250" Margin="0,2,0,0" KeyDown="OnKeyDown" Foreground="Blue"/>
+                                    <TextBox Text="{Binding Reason, UpdateSourceTrigger=PropertyChanged}" Width="250" Margin="0,2,0,0" KeyDown="OnKeyDown" FontStyle="Italic"/>
                                 </StackPanel>
-                                <Button Content="-" Click="RemoveTask_Click" Width="25" Height="25" Margin="5,0"/>
+                                <Button Content="▲" Click="MoveUp_Click" Width="25" Margin="2,0"/>
+                                <Button Content="▼" Click="MoveDown_Click" Width="25" Margin="2,0"/>
+                                <Button Content="❌" Click="RemoveTask_Click" Width="25" Height="25" Margin="5,0"/>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
                 <Button Content="+ Добавить" Click="AddReturned_Click" HorizontalAlignment="Left" Margin="0,5,0,20"/>
 
-                <Button Content="СКОПИРОВАТЬ ОТЧЕТ" 
-                        Height="50" 
-                        Background="#4CAF50" Foreground="White" 
-                        FontWeight="Bold" FontSize="14"
-                        Click="CopyReport_Click" 
-                        Margin="0,20,0,40"/>
+                <Button Content="СКОПИРОВАТЬ ОТЧЕТ" Height="50" Background="#4CAF50" Foreground="White" FontWeight="Bold" FontSize="14" Click="CopyReport_Click" Margin="0,20,0,40"/>
             </StackPanel>
         </ScrollViewer>
-
         <Canvas x:Name="FireworksCanvas" IsHitTestVisible="False"/>
-        
         <Canvas x:Name="ShipCanvas" IsHitTestVisible="False" VerticalAlignment="Bottom" Height="60">
             <TextBlock x:Name="ShipEmoji" Text="⛵" FontSize="40" Canvas.Left="-50" Canvas.Top="0"/>
         </Canvas>
