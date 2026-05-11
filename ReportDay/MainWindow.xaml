@@ -46,8 +46,9 @@
                                 </StackPanel>
                                 <Button Content="▲" Click="MoveUp_Click" Width="25" Margin="2,0"/>
                                 <Button Content="▼" Click="MoveDown_Click" Width="25" Margin="2,0"/>
-                                <Button Content="➡ Фикс" Click="MoveToFixed_Click" Width="50" Margin="5,0"/>
-                                <Button Content="❌" Click="RemoveTask_Click" Width="25" Height="25" Margin="2,0"/>
+                                <Button Content="↩ В работу" Click="MoveToReturned_Click"  Width="25" Margin="2,0"/>
+                                <Button Content="➡ Фикс" Click="MoveToFixed_Click" Width="60" Margin="2,0"/>
+                                <Button Content="❌" Click="RemoveTask_Click" Width="60" Height="25" Margin="2,0"/>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -70,6 +71,7 @@
                                 <Button Content="▲" Click="MoveUp_Click" Width="25" Margin="2,0"/>
                                 <Button Content="▼" Click="MoveDown_Click" Width="25" Margin="2,0"/>
                                 <Button Content="❌" Click="RemoveTask_Click" Width="25" Height="25" Margin="5,0"/>
+                                <Button Content="⚠️ На доработку" Click="FixedToReturned_Click" Width="25" Height="25" Margin="5,0"/>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -90,6 +92,7 @@
                                     <TextBox Text="{Binding Link, UpdateSourceTrigger=PropertyChanged}" Width="250" Margin="0,2,0,0" KeyDown="OnKeyDown" Foreground="Blue"/>
                                     <TextBox Text="{Binding Reason, UpdateSourceTrigger=PropertyChanged}" Width="250" Margin="0,2,0,0" KeyDown="OnKeyDown" FontStyle="Italic"/>
                                 </StackPanel>
+                                <Button Content="✅ В фиксы" Click="ReturnedToFixed_Click"  Width="25" Margin="5,0" />
                                 <Button Content="▲" Click="MoveUp_Click" Width="25" Margin="2,0"/>
                                 <Button Content="▼" Click="MoveDown_Click" Width="25" Margin="2,0"/>
                                 <Button Content="❌" Click="RemoveTask_Click" Width="25" Height="25" Margin="5,0"/>
